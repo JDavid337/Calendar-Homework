@@ -7,6 +7,28 @@ var timeEl = $('#time');
 var inputEl = $('input');
 var buttonEl = $('.saveBtn');
 
+function hourUpdate(){
+    var currentHour= moment().hours();
+    hourUpdate();
+    var interval = setInterval(hourUpdate, 60000);
+}
+
+hourUpdate();
+
+function updateHours() {
+    $('.time-block').each(function() {
+        var hour = $(this).attr('id').split('-')[1]; // 11
+
+        if (+hour < currentHour) {
+            $(this).addClass('past'); 
+        } else if (+hour === currentHour) {
+            $(this).addClass('present');
+        } else {
+            $(this).addClass('future');
+        }
+    })
+}
+
 function checkTime()  {
     var currentTime = moment().hour('').format("HH:00");
     var timeBlockHours = $('.hour');
@@ -26,6 +48,17 @@ function checkTime()  {
 }
 
 var userTask = document.querySelector('.description');
+
+$('saveBtn').on('click', function(event){
+    var value = $(event.target).siblings('.description').val();
+    var time = $(this).parent().attr('id');
+
+    localStorage.setItem(time, value);
+})
+
+$('hour-11 .description').val(localStorage.getItem('hour-11'))
+
+$('#hour-' + hour[i])
 
 buttonEl.on('click', function saveData(event) {
     event.preventDefault();
